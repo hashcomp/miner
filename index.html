@@ -12,31 +12,36 @@
     <div id="generatedTokens"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
-    <script>
-        function generateHashcash() {
-            var accountNumber = document.getElementById("accountNumber").value;
-            var generatedTokensElement = document.getElementById("generatedTokens");
+<script>
+    function generateHashcash() {
+        var accountNumber = document.getElementById("accountNumber").value;
+        var generatedTokensElement = document.getElementById("generatedTokens");
 
-            if (!accountNumber) {
-                alert("Please enter your account number.");
-                return;
-            }
-
-            var hashcash = "1:" + Date.now() + ":sha256:amessage:" + accountNumber + "::1000";
-            var nonce = 0;
-            var hash = "";
-
-            while (!hash.startsWith("00000")) {
-                nonce++;
-                hash = CryptoJS.SHA256(hashcash + nonce.toString()).toString();
-            }
-
-            var hashcashResult = hashcash + nonce;
-            generatedTokensElement.innerHTML = ""; // Clear the existing token
-            var tokenElement = document.createElement("p");
-            tokenElement.textContent = "Hashcash: " + hashcashResult;
-            generatedTokensElement.appendChild(tokenElement);
+        if (!accountNumber) {
+            alert("Please enter your account number.");
+            return;
         }
-    </script>
+
+        var hashcash = "1:" + Date.now() + ":sha256:amessage:" + accountNumber + "::1000";
+        var nonce = 0;
+        var hash = "";
+
+        while (!hash.startsWith("00000")) {
+            nonce++;
+            hash = CryptoJS.SHA256(hashcash + nonce.toString()).toString();
+        }
+
+        var hashcashResult = hashcash + nonce;
+
+        // Create a link element
+        var linkElement = document.createElement("a");
+        linkElement.href = "https://hashcomp.github.io/pay/newre.html?hashcash=" + hashcashResult;
+        linkElement.textContent = "Hashcash: " + hashcashResult;
+
+        generatedTokensElement.innerHTML = ""; // Clear the existing token
+        generatedTokensElement.appendChild(linkElement);
+    }
+</script>
+
 </body>
 </html>
