@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HashPay Cash Mining</title>
+</head>
+<body>
+    <h1>HashPay Cash Mining</h1>
+    <p>Enter your account number:</p>
+    <input type="text" id="accountNumber" placeholder="Your Account Number">
+    <button onclick="startMining()">Start Mining</button>
+    <h2>Mined Hashcash Tokens:</h2>
+    <div id="minedTokens"></div>
+
+    <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
+    <script>
+        function startMining() {
+            var accountNumber = document.getElementById("accountNumber").value;
+            var minedTokensElement = document.getElementById("minedTokens");
+
+            if (!accountNumber) {
+                alert("Please enter your account number.");
+                return;
+            }
+
+            var miningInterval = setInterval(function() {
+                var hashcash = "1:" + Date.now() + ":sha256::" + accountNumber + "::1000:";
+                var nonce = 0;
+                var hash = "";
+
+                while (!hash.startsWith("00000")) {
+                    nonce++;
+                    hash = CryptoJS.SHA256(hashcash + nonce.toString()).toString();
+                }
+
+                var hashcashResult = hashcash + nonce;
+                var tokenElement = document.createElement("p");
+                var linkElement = document.createElement("a");
+                linkElement.href = "https://hashcomp.github.io/pay/newre.html?hashcash=" + encodeURIComponent(hashcashResult);
+                linkElement.textContent = "Add to Wallet";
+                tokenElement.textContent = "Hashcash: ";
+                tokenElement.appendChild(linkElement);
+                tokenElement.appendChild(document.createTextNode(" " + hashcashResult));
+                minedTokensElement.appendChild(tokenElement);
+            }, 1000); // Generate a token every second
+
+            // Stop mining when the user leaves the site
+            window.addEventListener('beforeunload', function() {
+                clearInterval(miningInterval);
+            });
+        }
+    </script>
+</body>
+</html>
