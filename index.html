@@ -8,7 +8,7 @@
     <p>Enter your account number:</p>
     <input type="text" id="accountNumber" placeholder="Your Account Number">
     <button onclick="generateHashcash()">Generate Hashcash</button>
-    <h2>Generated Hashcash Tokens:</h2>
+    <h2>Generated Hashcash Token:</h2>
     <div id="generatedTokens"></div>
 
     <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
@@ -32,9 +32,9 @@
             }
 
             var hashcashResult = hashcash + nonce;
+            generatedTokensElement.innerHTML = ""; // Clear the existing token
             var tokenElement = document.createElement("p");
             tokenElement.textContent = "Hashcash: " + hashcashResult;
-            generatedTokensElement.innerHTML = ""; // Clear the existing tokens
             generatedTokensElement.appendChild(tokenElement);
         }
     </script>
