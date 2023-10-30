@@ -7,22 +7,22 @@
     <h1>HashPay Cash Mining</h1>
     <p>Enter your account number:</p>
     <input type="text" id="accountNumber" placeholder="Your Account Number">
-    <button onclick="startMining()">Start Mining</button>
-    <h2>Mined Hashcash Tokens:</h2>
-    <div id="minedTokens"></div>
+    <button onclick="generateHashcash()">Generate Hashcash</button>
+    <h2>Generated Hashcash Tokens:</h2>
+    <div id="generatedTokens"></div>
 
     <script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/sha256.js"></script>
     <script>
-        function startMining() {
+        function generateHashcash() {
             var accountNumber = document.getElementById("accountNumber").value;
-            var minedTokensElement = document.getElementById("minedTokens");
+            var generatedTokensElement = document.getElementById("generatedTokens");
 
             if (!accountNumber) {
                 alert("Please enter your account number.");
                 return;
             }
 
-            var hashcash = "1:" + Date.now() + ":sha256::" + accountNumber + "::1000:";
+            var hashcash = "1:" + Date.now() + ":sha256::" + accountNumber + "::1000";
             var nonce = 0;
             var hash = "";
 
@@ -33,13 +33,9 @@
 
             var hashcashResult = hashcash + nonce;
             var tokenElement = document.createElement("p");
-            var linkElement = document.createElement("a");
-            linkElement.href = "https://hashcomp.github.io/pay/newre.html?hashcash=" + encodeURIComponent(hashcashResult);
-            linkElement.textContent = "Add to Wallet";
-            tokenElement.textContent = "Hashcash: ";
-            tokenElement.appendChild(linkElement);
-            tokenElement.appendChild(document.createTextNode(" " + hashcashResult));
-            minedTokensElement.appendChild(tokenElement);
+            tokenElement.textContent = "Hashcash: " + hashcashResult;
+            generatedTokensElement.innerHTML = ""; // Clear the existing tokens
+            generatedTokensElement.appendChild(tokenElement);
         }
     </script>
 </body>
